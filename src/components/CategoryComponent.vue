@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="category">
     <h2>{{ category }}</h2>
-    <task-component
-      v-for="task in filteredTasks"
-      :key="task.id"
-      :task="task"
-      @update-status="updateTaskStatus"
-    ></task-component>
+    <div class="tasks">
+      <TaskComponent
+        v-for="task in filteredTasks"
+        :key="task.id"
+        :task="task"
+      ></TaskComponent>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, defineProps } from 'vue'
-import { useTaskStore } from '@/stores/tasks'
 import TaskComponent from '@/components/TaskComponent.vue'
 import type { TaskType } from '@/types/types'
 
@@ -27,9 +27,22 @@ const filteredTasks = computed(() => {
     return tasks.filter((task: TaskType) => task.category === category)
   }
 })
-
-const updateTaskStatus = (id: number) => {
-  useTaskStore().updateTaskStatus(id)
-}
 </script>
 
+<style scoped>
+.category {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #f8e403;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+</style>

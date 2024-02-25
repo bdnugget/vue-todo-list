@@ -1,25 +1,37 @@
 <template>
   <div id="app">
-    <h1>Bd's Magnificent Todo List</h1>
+    <h1 class="title">Bd's Magnificent Todo List</h1>
+    <img src="@/assets/ayylmao.gif" alt="Ayy Lmao" class="banner gif" @click="playAudio" />
+    <audio src="/src/assets/Sweet_Little_Dead_Bunny.ogg" ref="audioPlayer"></audio>
     <TodoList />
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from 'vue'
 import TodoList from './components/TodoList.vue'
 
-defineComponent({
-  name: 'App',
-  components: {
-    TodoList
-  }
-})
+const playAudio = () => {
+  const audioPlayer = document.querySelector('audio') as HTMLAudioElement
+  audioPlayer.play()
+}
 </script>
 
 <style>
 #app {
-  font-family: Arial, sans-serif;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ensure the app takes up the full viewport height */
+}
+
+.title {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.banner {
+  width: 100%;
+  margin-bottom: 20px; /* Add some spacing between the banner and the input fields */
 }
 </style>
