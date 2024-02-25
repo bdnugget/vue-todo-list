@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
-import { TaskType } from '@/types/types'
+import type { TaskType } from '@/types/types'
 import { useTaskStore } from '@/stores/tasks'
 
 export default defineComponent({

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { TaskType } from '@/types/types'
+import type { TaskType } from '@/types/types'
 import { useTaskStore } from '@/stores/tasks'
 import Category from '@/components/Category.vue'
 
