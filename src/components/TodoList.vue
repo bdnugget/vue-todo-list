@@ -1,8 +1,8 @@
 <template>
   <div class="todo-list">
     <div class="add-task">
-      <input type="text" v-model="taskName" placeholder="Task" class="task-input" />
-      <input type="text" v-model="taskCategory" placeholder="Category/name" class="category-input" />
+      <input type="text" v-model="taskName" placeholder="Task" class="task-input" @keydown.enter.prevent="addTask" ref="taskInput" />
+      <input type="text" v-model="taskCategory" placeholder="Category/name" class="category-input" @keydown.enter.prevent="addTask" />
       <button @click="addTask" class="add-button">Add Task</button>
     </div>
     <div class="categories">
@@ -25,6 +25,8 @@ import CategoryComponent from '@/components/CategoryComponent.vue'
 
 const taskName = ref('')
 const taskCategory = ref('')
+const taskInput = ref<HTMLInputElement | null>(null) // Reference to the task input element
+
 
 const taskStore = useTaskStore()
 
@@ -59,6 +61,7 @@ const addTask = async () => {
       taskStore.setTasks([...taskStore.tasks, newTask]);
       taskName.value = '';
       taskCategory.value = '';
+      focusTaskInput();
     } else {
       console.error('Failed to add task:', response.statusText);
     }
@@ -87,6 +90,12 @@ const deleteCompletedTasks = async () => {
     }
   } catch (error) {
     console.error('Error deleting tasks:', error);
+  }
+}
+
+const focusTaskInput = () => {
+  if (taskInput.value) {
+    taskInput.value.focus(); // Focus on the task input element
   }
 }
 
