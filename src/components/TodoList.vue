@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import type { TaskType } from '@/types/types'
 import { useTaskStore } from '@/stores/tasks'
 import CategoryComponent from '@/components/CategoryComponent.vue'
@@ -32,19 +32,52 @@ const categorizedTasks = computed(() => {
   }, {} as Record<string, TaskType[]>)
 })
 
-const addTask = () => {
+const addTask = async () => {
   if (taskName.value.trim() === '') return
+
   const newTask: TaskType = {
     id: taskStore.tasks.length + 1,
     name: taskName.value,
     category: taskCategory.value,
     completed: false
   }
-  taskStore.addTask(newTask)
-  taskName.value = ''
-  taskCategory.value = ''
+
+  // Make POST request to add new task
+  try {
+    const response = await fetch('http://localhost:3000/api/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTask)
+    });
+    if (response.ok) {
+      taskStore.addTask(newTask);
+      taskName.value = '';
+      taskCategory.value = '';
+    } else {
+      console.error('Failed to add task:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error adding task:', error);
+  }
 }
+
+onMounted(async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/tasks');
+    if (response.ok) {
+      const tasks = await response.json();
+      taskStore.setTasks(tasks);
+    } else {
+      console.error('Failed to fetch tasks:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+  }
+});
 </script>
+
 
 <style scoped>
 </style>

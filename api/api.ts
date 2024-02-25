@@ -1,16 +1,18 @@
 import express, { Request, Response } from 'express';
 import type { TaskType } from '../src/types/types';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const tasks: TaskType[] = [];
 
-app.get('/tasks', (_: Request, res: Response) => {
+app.get('/api/tasks', (_: Request, res: Response) => {
   res.json(tasks);
 });
 
-app.post('/tasks', (req: Request, res: Response) => {
+app.post('/api/tasks', (req: Request, res: Response) => {
   const newTask: TaskType = req.body;
   tasks.push(newTask);
   res.status(201).json(newTask);

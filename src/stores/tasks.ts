@@ -15,6 +15,18 @@ export const useTaskStore = defineStore({
       if (task) {
         task.completed = !task.completed
       }
+    },
+    deleteTask(id: number) {
+      const index = this.tasks.findIndex((task) => task.id === id)
+      if (index !== -1) {
+        this.tasks.splice(index, 1)
+      }
+    },
+    getTasks() {
+      return this.tasks
+    },
+    setTasks(tasks: TaskType[]) {
+      this.tasks = tasks
     }
   }
 })
