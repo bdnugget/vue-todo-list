@@ -16,7 +16,7 @@
 import { defineComponent, ref } from 'vue'
 import { TaskType } from '@/types/types'
 import { useTaskStore } from '@/stores/tasks'
-import Category from './Category.vue'
+import Category from '@/components/Category.vue'
 
 export default defineComponent({
   components: {

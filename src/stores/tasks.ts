@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { TaskType } from '@/types/types'
+import type { TaskType } from '@/types/types'
 
 export const useTaskStore = defineStore({
   id: 'task',
