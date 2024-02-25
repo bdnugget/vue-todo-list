@@ -1,7 +1,7 @@
 <template>
   <div>
-    <input type="text" v-model="taskName" placeholder="Task name" />
-    <input type="text" v-model="taskCategory" placeholder="Category" />
+    <input type="text" v-model="taskName" placeholder="Task" />
+    <input type="text" v-model="taskCategory" placeholder="Category/name" />
     <button @click="addTask">Add Task</button>
     <category-component
       v-for="(tasks, category) in categorizedTasks"
@@ -42,7 +42,6 @@ const addTask = async () => {
     completed: false
   }
 
-  // Make POST request to add new task
   try {
     const response = await fetch('http://localhost:3000/api/tasks', {
       method: 'POST',
@@ -52,7 +51,7 @@ const addTask = async () => {
       body: JSON.stringify(newTask)
     });
     if (response.ok) {
-      taskStore.addTask(newTask);
+      taskStore.setTasks([...taskStore.tasks, newTask]);
       taskName.value = '';
       taskCategory.value = '';
     } else {

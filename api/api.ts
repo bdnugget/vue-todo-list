@@ -18,6 +18,17 @@ app.post('/api/tasks', (req: Request, res: Response) => {
   res.status(201).json(newTask);
 });
 
+app.put('/api/tasks/:id', (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const task = tasks.find((task) => task.id === id);
+    if (task) {
+        task.completed = !task.completed;
+        res.json(task);
+    } else {
+        res.status(404).json({ message: 'Task not found' });
+    }
+});
+
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
