@@ -2,11 +2,7 @@
   <div class="category">
     <h2>{{ category }}</h2>
     <div class="tasks">
-      <TaskComponent
-        v-for="task in filteredTasks"
-        :key="task.id"
-        :task="task"
-      ></TaskComponent>
+      <TaskComponent v-for="task in filteredTasks" :key="task.id" :task="task"></TaskComponent>
     </div>
   </div>
 </template>

@@ -6,15 +6,15 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import { useTaskStore } from '@/stores/tasks';
-import type { TaskType } from '@/types/types';
+import { defineProps } from 'vue'
+import { useTaskStore } from '@/stores/tasks'
+import type { TaskType } from '@/types/types'
 
-const TaskComponent = defineProps<{ task: TaskType }>();
+const TaskComponent = defineProps<{ task: TaskType }>()
 
 const updateStatus = async () => {
-  useTaskStore().updateTaskStatus(TaskComponent.task.id);
-  
+  useTaskStore().updateTaskStatus(TaskComponent.task.id)
+
   try {
     const response = await fetch(`http://192.168.178.115:3000/api/tasks/${TaskComponent.task.id}`, {
       method: 'PATCH',
@@ -22,15 +22,14 @@ const updateStatus = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ completed: !TaskComponent.task.completed })
-    });
+    })
     if (!response.ok) {
-      console.error('Failed to update task status:', response.statusText);
+      console.error('Failed to update task status:', response.statusText)
     }
   } catch (error) {
-    console.error('Error updating task status:', error);
+    console.error('Error updating task status:', error)
   }
-};
-
+}
 </script>
 
 <style scoped>

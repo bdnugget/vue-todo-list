@@ -1,15 +1,28 @@
 <template>
   <div class="todo-list">
     <div class="add-task">
-      <input type="text" v-model="taskName" placeholder="Task" class="task-input" @keydown.enter.prevent="addTask" ref="taskInput" />
-      <input type="text" v-model="taskCategory" placeholder="Category/name" class="category-input" @keydown.enter.prevent="addTask" />
+      <input
+        type="text"
+        v-model="taskName"
+        placeholder="Task"
+        class="task-input"
+        @keydown.enter.prevent="addTask"
+        ref="taskInput"
+      />
+      <input
+        type="text"
+        v-model="taskCategory"
+        placeholder="Category/name"
+        class="category-input"
+        @keydown.enter.prevent="addTask"
+      />
       <button @click="addTask" class="add-button">Add Task</button>
     </div>
     <div class="categories">
       <CategoryComponent
         v-for="(tasks, category) in categorizedTasks"
         :key="category"
-        :category="category"
+        :category="category.toString()"
         :tasks="tasks"
       ></CategoryComponent>
     </div>
@@ -27,17 +40,23 @@ const taskName = ref('')
 const taskCategory = ref('')
 const taskInput = ref<HTMLInputElement | null>(null) // Reference to the task input element
 
-
 const taskStore = useTaskStore()
 
 const categorizedTasks = computed(() => {
-  return taskStore.tasks.reduce((acc, task) => {
-    const category = task.category || 'General'
-    acc[category] = acc[category] || []
-    acc[category].push(task)
-    return acc
-  }, {} as Record<string, TaskType[]>)
+  return calculateCategorizedTasks(taskStore.tasks)
 })
+
+function calculateCategorizedTasks(tasks: any[]) {
+  return tasks.reduce(
+    (acc: { [x: string]: any[] }, task: { category: string }) => {
+      const category = task.category
+      acc[category] = acc[category] || []
+      acc[category].push(task)
+      return acc
+    },
+    {} as Record<string, TaskType[]>
+  )
+}
 
 const addTask = async () => {
   if (taskName.value.trim() === '') return
@@ -45,7 +64,7 @@ const addTask = async () => {
   const newTask: TaskType = {
     id: taskStore.tasks.length + 1,
     name: taskName.value,
-    category: taskCategory.value,
+    category: taskCategory.value || 'General',
     completed: false
   }
 
@@ -56,24 +75,24 @@ const addTask = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newTask)
-    });
+    })
     if (response.ok) {
-      taskStore.setTasks([...taskStore.tasks, newTask]);
-      taskName.value = '';
-      taskCategory.value = '';
-      focusTaskInput();
+      taskStore.setTasks([...taskStore.tasks, newTask])
+      taskName.value = ''
+      taskCategory.value = ''
+      focusTaskInput()
     } else {
-      console.error('Failed to add task:', response.statusText);
+      console.error('Failed to add task:', response.statusText)
     }
   } catch (error) {
-    console.error('Error adding task:', error);
+    console.error('Error adding task:', error)
   }
 }
 
 const deleteCompletedTasks = async () => {
-  const completedTasks = taskStore.tasks.filter((task) => task.completed);
-  console.log(completedTasks);
-  if (completedTasks.length === 0) return;
+  const completedTasks = taskStore.tasks.filter((task) => task.completed)
+  console.log(completedTasks)
+  if (completedTasks.length === 0) return
 
   try {
     const response = await fetch('http://192.168.178.115:3000/api/tasks', {
@@ -82,38 +101,37 @@ const deleteCompletedTasks = async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(completedTasks)
-    });
+    })
     if (response.ok) {
-      taskStore.setTasks(taskStore.tasks.filter((task) => !task.completed));
+      taskStore.setTasks(taskStore.tasks.filter((task) => !task.completed))
     } else {
-      console.error('Failed to delete tasks:', response.statusText);
+      console.error('Failed to delete tasks:', response.statusText)
     }
   } catch (error) {
-    console.error('Error deleting tasks:', error);
+    console.error('Error deleting tasks:', error)
   }
 }
 
 const focusTaskInput = () => {
   if (taskInput.value) {
-    taskInput.value.focus(); // Focus on the task input element
+    taskInput.value.focus() // Focus on the task input element again after adding a task
   }
 }
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://192.168.178.115:3000/api/tasks');
+    const response = await fetch('http://192.168.178.115:3000/api/tasks')
     if (response.ok) {
-      const tasks = await response.json();
-      taskStore.setTasks(tasks);
+      const tasks = await response.json()
+      taskStore.setTasks(tasks)
     } else {
-      console.error('Failed to fetch tasks:', response.statusText);
+      console.error('Failed to fetch tasks:', response.statusText)
     }
   } catch (error) {
-    console.error('Error fetching tasks:', error);
+    console.error('Error fetching tasks:', error)
   }
-});
+})
 </script>
-
 
 <style scoped>
 .todo-list {
@@ -172,5 +190,4 @@ onMounted(async () => {
 .delete-button:hover {
   background-color: #bb2d3b; /* Darken the background color on hover */
 }
-
 </style>
