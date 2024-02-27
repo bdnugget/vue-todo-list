@@ -33,8 +33,9 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import type { TaskType } from '@/types/types'
-import { useTaskStore } from '@/stores/taskStore'
+import { useTaskStore } from '@/stores/taskStore' 
 import CategoryComponent from '@/components/CategoryComponent.vue'
+import { createTask, /*deleteTask,*/ deleteTasks, getAllTasks, /*updateTaskStatus*/ } from '@/services/taskService';
 
 const taskName = ref('')
 const taskCategory = ref('')
@@ -69,13 +70,7 @@ const addTask = async () => {
   }
 
   try {
-    const response = await fetch('http://192.168.178.115:3000/api/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newTask)
-    })
+    const response = await createTask(newTask)
     if (response.ok) {
       taskStore.setTasks([...taskStore.tasks, newTask])
       taskName.value = ''
@@ -95,13 +90,7 @@ const deleteCompletedTasks = async () => {
   if (completedTasks.length === 0) return
 
   try {
-    const response = await fetch('http://192.168.178.115:3000/api/tasks', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(completedTasks)
-    })
+    const response = await deleteTasks(completedTasks.map((task) => task.id))
     if (response.ok) {
       taskStore.setTasks(taskStore.tasks.filter((task) => !task.completed))
     } else {
@@ -120,7 +109,7 @@ const focusTaskInput = () => {
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://192.168.178.115:3000/api/tasks')
+    const response = await getAllTasks()
     if (response.ok) {
       const tasks = await response.json()
       taskStore.setTasks(tasks)
