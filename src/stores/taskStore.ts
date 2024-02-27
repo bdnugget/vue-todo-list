@@ -22,6 +22,14 @@ export const useTaskStore = defineStore({
         this.tasks.splice(index, 1)
       }
     },
+    deleteTasks(ids: number[]) {
+      ids.forEach((id) => {
+        const index = this.tasks.findIndex((task) => task.id === id)
+        if (index !== -1) {
+          this.tasks.splice(index, 1)
+        }
+      })
+    },
     getTasks() {
       return this.tasks
     },

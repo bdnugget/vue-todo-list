@@ -1,14 +1,23 @@
 <template>
   <div id="app">
     <h1 class="title">Bd's Magnificent Todo List</h1>
-    <img src="@/assets/ayylmao.gif" alt="Ayy Lmao" class="banner gif" @click="playAudio" />
-    <audio src="/src/assets/Sweet_Little_Dead_Bunny.ogg" ref="audioPlayer"></audio>
+    <div class="lmao-mode">
+      <input type="checkbox" v-model="lmaoMode" />
+      <label for="lmao-mode">Ayy Lmao Mode</label>
+    </div>
+    <div class="banner" v-if="lmaoMode">
+      <img src="@/assets/ayylmao.gif" alt="Ayy Lmao" class="banner gif" @click="playAudio" />
+      <audio src="/src/assets/Sweet_Little_Dead_Bunny.ogg" ref="audioPlayer"></audio>
+    </div>
     <TodoList />
   </div>
 </template>
 
 <script setup lang="ts">
 import TodoList from './components/TodoList.vue'
+import { ref } from 'vue'
+
+const lmaoMode = ref(false)
 
 const playAudio = () => {
   const audioPlayer = document.querySelector('audio') as HTMLAudioElement

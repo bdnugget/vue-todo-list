@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import { useTaskStore } from '@/stores/tasks'
+import { useTaskStore } from '@/stores/taskStore'
 import type { TaskType } from '@/types/types'
 
 const TaskComponent = defineProps<{ task: TaskType }>()
