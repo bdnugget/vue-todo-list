@@ -33,9 +33,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import type { TaskType } from '@/types/types'
-import { useTaskStore } from '@/stores/taskStore' 
+import { useTaskStore } from '@/stores/taskStore'
 import CategoryComponent from '@/components/CategoryComponent.vue'
-import { createTask, /*deleteTask,*/ deleteTasks, getAllTasks, /*updateTaskStatus*/ } from '@/services/taskService';
+import {
+  createTask,
+  /*deleteTask,*/ deleteTasks,
+  getAllTasks /*updateTaskStatus*/
+} from '@/services/taskService'
 
 const taskName = ref('')
 const taskCategory = ref('')
