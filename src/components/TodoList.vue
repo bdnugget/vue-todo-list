@@ -128,7 +128,7 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Ensure the app takes up the full viewport height */
+  /*height: 100vh; /* Ensure the app takes up the full viewport height */
 }
 
 .categories {
@@ -146,6 +146,7 @@ onMounted(async () => {
 .task-input {
   height: 60px; /* Adjust the height of the task input field */
   margin-bottom: 10px; /* Add some spacing between the task input field and the category input field */
+  margin-top: 10px;
 }
 
 .category-input {

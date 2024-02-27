@@ -31,7 +31,7 @@ const playAudio = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Ensure the app takes up the full viewport height */
+  /*height: 100vh; /* Ensure the app takes up the full viewport height */
 }
 
 .title {
