@@ -10,19 +10,19 @@ export const useTaskStore = defineStore({
     addTask(newTask: TaskType) {
       this.tasks.push(newTask)
     },
-    updateTaskStatus(id: number) {
+    updateTaskStatus(id: string) {
       const task = this.tasks.find((task) => task.id === id)
       if (task) {
         task.completed = !task.completed
       }
     },
-    deleteTask(id: number) {
+    deleteTask(id: string) {
       const index = this.tasks.findIndex((task) => task.id === id)
       if (index !== -1) {
         this.tasks.splice(index, 1)
       }
     },
-    deleteTasks(ids: number[]) {
+    deleteTasks(ids: string[]) {
       ids.forEach((id) => {
         const index = this.tasks.findIndex((task) => task.id === id)
         if (index !== -1) {

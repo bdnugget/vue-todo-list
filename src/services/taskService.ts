@@ -31,7 +31,7 @@ export async function createTask(task: TaskType) {
   }
 }
 
-export async function updateTaskStatus(taskId: number) {
+export async function updateTaskStatus(taskId: string) {
   try {
     const response = await fetch(`${API_URL}/${taskId}`, {
       method: 'PATCH',
@@ -49,7 +49,7 @@ export async function updateTaskStatus(taskId: number) {
   }
 }
 
-export async function deleteTask(taskId: number) {
+export async function deleteTask(taskId: string) {
   try {
     const response = await fetch(`${API_URL}/${taskId}`, {
       method: 'DELETE'
@@ -63,7 +63,7 @@ export async function deleteTask(taskId: number) {
   }
 }
 
-export async function deleteTasks(taskIds: number[]) {
+export async function deleteTasks(taskIds: string[]) {
   try {
     const response = await fetch(API_URL, {
       method: 'DELETE',

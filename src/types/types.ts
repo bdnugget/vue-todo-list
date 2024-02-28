@@ -1,5 +1,5 @@
 export interface TaskType {
-  id: number
+  id: string
   name: string
   category?: string
   completed: boolean
