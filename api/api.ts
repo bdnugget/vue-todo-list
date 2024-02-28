@@ -24,7 +24,7 @@ app.post('/api/tasks', (req: Request, res: Response) => {
 });
 
 app.patch('/api/tasks/:id', (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const task = tasks.find((task) => task.id === id);
     if (task) {
         task.completed = !task.completed;
@@ -35,7 +35,7 @@ app.patch('/api/tasks/:id', (req: Request, res: Response) => {
 });
 
 app.delete('/api/tasks/:id', (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const id = req.params.id;
     const index = tasks.findIndex((task) => task.id === id);
     if (index !== -1) {
         tasks.splice(index, 1);
@@ -46,7 +46,7 @@ app.delete('/api/tasks/:id', (req: Request, res: Response) => {
 });
 
 app.delete('/api/tasks', (req: Request, res: Response) => {
-    const ids: number[] = req.body;
+    const ids: string[] = req.body;
     ids.forEach((id) => {
         const index = tasks.findIndex((task) => task.id === id);
         if (index !== -1) {
