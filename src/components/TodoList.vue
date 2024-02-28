@@ -35,6 +35,7 @@ import { ref, computed, onMounted } from 'vue'
 import type { TaskType } from '@/types/types'
 import { useTaskStore } from '@/stores/taskStore'
 import CategoryComponent from '@/components/CategoryComponent.vue'
+import { v4 as uuidv4 } from 'uuid';
 import {
   createTask,
   /*deleteTask,*/ deleteTasks,
@@ -67,7 +68,7 @@ const addTask = async () => {
   if (taskName.value.trim() === '') return
 
   const newTask: TaskType = {
-    id: taskStore.tasks.length + 1,
+    id: uuidv4(),
     name: taskName.value,
     category: taskCategory.value || 'General',
     completed: false
